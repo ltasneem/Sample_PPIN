@@ -45,37 +45,56 @@ d3 <- readRDS("gid_pid_gsymbol.Rda")
 a <- readRDS("gene_1080_1047.Rda")
 ppi <- readRDS("ppi_950.Rda")
 
-##extracting sample column from gene * sample 2D matrix
-##and list those 0 expression value genes
-s1 <- a[,c(1)]
-x <- names(s1[which(s1==0)])
 
-## List of ppid from gene_symboltoppid list
-##for 0 expression value genes
-
-x2 <- d3[which(d3$hgnc_symbol == x[1]),]
-x2 <- x2$ensembl_protein_id
-for(i in 2:length(x))
+## Alternate ssn building & feature extraction
+g_density <- list()
+for(i in 1:ncol(a))
 {
-  x1 <- d3[which(d3$hgnc_symbol == x[i]),]
-  x1 <- x1$ensembl_protein_id
-  if(length(x1) != 0)
-  {
-    x3 <- list(x2,x1)
-    vec <- unlist(x3)
-    vec <- vec[which(c(1,diff(vec)) != 0)]
-    x2 <- vec
-  }
+s1 <- a[,c(i)]
+s2 <- s1[which(s1==0)]
+op <- t(t(s2))
+p1 <- as.data.frame(as.table(op))
+keeps <- c("Var1", "Freq")
+p2 <- p1[keeps]
+colnames(p2)[1] <- "gene_name"
+colnames(p2)[2] <- "expression"
+zero_ex <- merge(p2, d3, by.x='gene_name', by.y='hgnc_symbol')
+g1 <- g
+inter1 <- intersect(df3$protein1,zero_ex$ensembl_protein_id)
+g1 <- delete_vertices(g1, inter1)
+x2 <- graph.density(g1)
+g_density[[i]] <- x2
 }
 
-## removing those ppid from row and column of 
-##ppi v*v adjacency matrix.
+> saveRDS(g_density,"Network_density.Rda")
+> write.csv(g_density,"Network_density.csv")
 
-ppiwithoutgr = ppi[!row.names(ppi)%in% x2,]
-ppiwithoutgcr = ppiwithoutgr[,!colnames(ppiwithoutgr)%in% x2]
+########################################################
 
-## Alternate ssn building
+g_transitivity=list()
 
+for(i in 1:ncol(a))
+{
+s1 <- a[,c(i)]
+s2 <- s1[which(s1==0)]
+op <- t(t(s2))
+p1 <- as.data.frame(as.table(op))
+keeps <- c("Var1", "Freq")
+p2 <- p1[keeps]
+colnames(p2)[1] <- "gene_name"
+colnames(p2)[2] <- "expression"
+zero_ex <- merge(p2, d3, by.x='gene_name', by.y='hgnc_symbol')
+g1 <- g
+inter1 <- intersect(df3$protein1,zero_ex$ensembl_protein_id)
+g1 <- delete_vertices(g1, inter1)
+x2 <- transitivity(g1)
+g_transitivity[[i]] <- x2
+}
+
+> saveRDS(g_transitivity,"Network_transitivity.Rda")
+> write.csv(g_transitivity,"Network_transitivity.csv")
+
+##############################################################
 g_density=list()
 transitivity=list()
 betweenness_centrality=list()
