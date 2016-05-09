@@ -1,5 +1,6 @@
-# Sample_PPIN
+
 Steps to run the project:
+
 1.These 3 files are needed to run this project:
 
 Project_main.R
