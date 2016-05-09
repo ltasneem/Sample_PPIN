@@ -7,7 +7,7 @@ Steps to run the project:
 (2) Project_feature_cluster.R
 (3) Project_ssn.R
 
-2.  protein_links.txt and  prob.BRCA.N.exp.RData, these
+2.protein_links.txt and  prob.BRCA.N.exp.RData, these
 two data file must be downloaded from the original source
 mentioned in the paper.
 
