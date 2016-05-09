@@ -9,7 +9,8 @@ Steps to run the project:
 
 2.protein_links.txt and  prob.BRCA.N.exp.RData, these
 two data file must be downloaded from the original source
-mentioned in the paper.
+mentioned in the paper.These two files are too big to add
+here.
 
 1) k <- read.table("protein_links.txt", sep = " ", header = TRUE)
 2) pb <- load("prob.BRCA.N.exp.RData")
