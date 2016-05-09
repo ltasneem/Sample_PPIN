@@ -7,12 +7,12 @@ Steps to run the project:
 (2) Project_feature_cluster.R
 (3) Project_ssn.R
 
-2. 1) protein_links.txt and 2) prob.BRCA.N.exp.RData, these
+2.  protein_links.txt and  prob.BRCA.N.exp.RData, these
 two data file must be downloaded from the original source
 mentioned in the paper.
 
-k <- read.table("protein_links.txt", sep = " ", header = TRUE)
-pb <- load("prob.BRCA.N.exp.RData")
+1) k <- read.table("protein_links.txt", sep = " ", header = TRUE)
+2) pb <- load("prob.BRCA.N.exp.RData")
 
 3.These three files must be kept in the same workspace
 where the source code is. These files hold data with some
